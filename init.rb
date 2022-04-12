@@ -1,7 +1,8 @@
 require 'redmine'
 
-require_dependency 'patches/attachments_patch'
-require_dependency 'hooks/view_layouts_base_html_head_hook'
+# require_dependency 'patches/attachments_patch'
+# require_dependency 'hooks/view_layouts_base_html_head_hook'
+require_relative 'lib/redmine_lightbox_2/hooks/view_layouts_base_html_head_hook'
 
 Redmine::Plugin.register :redmine_lightbox2 do
   name 'Redmine Lightbox 2'
@@ -20,17 +21,17 @@ require 'dispatcher' unless Rails::VERSION::MAJOR >= 3
 
 if Rails::VERSION::MAJOR >= 5
   ActiveSupport::Reloader.to_prepare do
-    require_dependency 'attachments_controller'
-    AttachmentsController.send(:include, RedmineLightbox2::AttachmentsPatch)
+    # require_dependency 'attachments_controller'
+    AttachmentsController.send(:include, RedmineLightbox2::Pathes::AttachmentsPatch)
   end
 elsif Rails::VERSION::MAJOR >= 3
   ActionDispatch::Callbacks.to_prepare do
-    require_dependency 'attachments_controller'
-    AttachmentsController.send(:include, RedmineLightbox2::AttachmentsPatch)
+    # require_dependency 'attachments_controller'
+    AttachmentsController.send(:include, RedmineLightbox2::Pathes::AttachmentsPatch)
   end
 else
   Dispatcher.to_prepare do
-    require_dependency 'attachments_controller'
-    AttachmentsController.send(:include, RedmineLightbox2::AttachmentsPatch)
+    # require_dependency 'attachments_controller'
+    AttachmentsController.send(:include, RedmineLightbox2::Pathes::AttachmentsPatch)
   end
 end
